@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8" />
+
+<title>Voila: TestPivot</title>
+
+<link rel="stylesheet" href="https://unpkg.com/font-awesome@4.5.0/css/font-awesome.min.css" type="text/css" />
+  <!-- voila log js -->
+  <script>
+    const _debug = console.debug;
+    const _info = console.info;
+    const _warn = console.warn;
+    const _error = console.error;
+
+    console.debug = (...args) => {
+        window.top.postMessage({ level: "debug", msg: ["[VOILA]:", ...args] });
+        _debug(...args);
+    };
+
+    console.info = console.info = (...args) => {
+        window.top.postMessage({ level: "info", msg: ["[VOILA]:", ...args] });
+        _info(...args);
+    };
+
+    console.warn = (...args) => {
+        window.top.postMessage({ level: "warn", msg: ["[VOILA]:", ...args] });
+        _warn(...args);
+    };
+
+    console.error = (...args) => {
+        window.top.postMessage({ level: "error", msg: ["[VOILA]:", ...args] });
+        _error(...args);
+    };
+  </script>
+
+<script
+    src="/voila/static/require.min.js"
+    integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA="
+    crossorigin="anonymous">
+</script>
+
+
+<style>
+    /*Hide empty cells*/
+    .jp-mod-noOutputs.jp-mod-noInput {
+      display: none;
+    }
+  </style>
+
+<link rel="stylesheet" type="text/css" href="/voila/static/index.css">
+
+
+    <link rel="stylesheet" type="text/css" href="/voila/static/theme-light.css">
+
+
+
+    <style>
+    .highlight .hll { background-color: var(--jp-cell-editor-active-background) }
+.highlight  { background: var(--jp-cell-editor-background); color: var(--jp-mirror-editor-variable-color) }
+.highlight .c { color: var(--jp-mirror-editor-comment-color); font-style: italic } /* Comment */
+.highlight .err { color: var(--jp-mirror-editor-error-color) } /* Error */
+.highlight .k { color: var(--jp-mirror-editor-keyword-color); font-weight: bold } /* Keyword */
+.highlight .o { color: var(--jp-mirror-editor-operator-color); font-weight: bold } /* Operator */
+.highlight .p { color: var(--jp-mirror-editor-punctuation-color) } /* Punctuation */
+.highlight .ch { color: var(--jp-mirror-editor-comment-color); font-style: italic } /* Comment.Hashbang */
+.highlight .cm { color: var(--jp-mirror-editor-comment-color); font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: var(--jp-mirror-editor-comment-color); font-style: italic } /* Comment.Preproc */
+.highlight .cpf { color: var(--jp-mirror-editor-comment-color); font-style: italic } /* Comment.PreprocFile */
+.highlight .c1 { color: var(--jp-mirror-editor-comment-color); font-style: italic } /* Comment.Single */
+.highlight .cs { color: var(--jp-mirror-editor-comment-color); font-style: italic } /* Comment.Special */
+.highlight .kc { color: var(--jp-mirror-editor-keyword-color); font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: var(--jp-mirror-editor-keyword-color); font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: var(--jp-mirror-editor-keyword-color); font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: var(--jp-mirror-editor-keyword-color); font-weight: bold } /* Keyword.Pseudo */
+.highlight .kr { color: var(--jp-mirror-editor-keyword-color); font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: var(--jp-mirror-editor-keyword-color); font-weight: bold } /* Keyword.Type */
+.highlight .m { color: var(--jp-mirror-editor-number-color) } /* Literal.Number */
+.highlight .s { color: var(--jp-mirror-editor-string-color) } /* Literal.String */
+.highlight .ow { color: var(--jp-mirror-editor-operator-color); font-weight: bold } /* Operator.Word */
+.highlight .w { color: var(--jp-mirror-editor-variable-color) } /* Text.Whitespace */
+.highlight .mb { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Bin */
+.highlight .mf { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Float */
+.highlight .mh { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Hex */
+.highlight .mi { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Integer */
+.highlight .mo { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Oct */
+.highlight .sa { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Affix */
+.highlight .sb { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Backtick */
+.highlight .sc { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Char */
+.highlight .dl { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Delimiter */
+.highlight .sd { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Doc */
+.highlight .s2 { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Double */
+.highlight .se { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Escape */
+.highlight .sh { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Heredoc */
+.highlight .si { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Interpol */
+.highlight .sx { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Other */
+.highlight .sr { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Regex */
+.highlight .s1 { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Single */
+.highlight .ss { color: var(--jp-mirror-editor-string-color) } /* Literal.String.Symbol */
+.highlight .il { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Integer.Long */
+    </style>
+
+
+<style>
+a.anchor-link {
+  display: none;
+}
+.highlight  {
+  margin: 0.4em;
+}
+</style>
+
+
+  <!-- voila spinner -->
+  <style>
+    #loading {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 75vh;
+        color: var(--jp-content-font-color1);
+        font-family: sans-serif;
+    }
+
+    .spinner {
+      animation: rotation 2s infinite linear;
+      transform-origin: 50% 50%;
+    }
+
+    .spinner-container {
+      width: 10%;
+    }
+
+    @keyframes rotation {
+      from {transform: rotate(0deg);}
+      to   {transform: rotate(359deg);}
+    }
+
+    .voila-spinner-color1{
+      fill:#268380;
+    }
+
+    .voila-spinner-color2{
+      fill:#f8e14b;
+    }
+  </style>
+</head>
+<body class="jp-Notebook theme-light" data-base-url="/voila/">
+
+
+
+  <div id="loading">
+    <div class="spinner-container">
+      <svg class="spinner" data-name="c1" version="1.1" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"><metadata><rdf:RDF><cc:Work rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/><dc:title>voila</dc:title></cc:Work></rdf:RDF></metadata><title>spin</title><path class="voila-spinner-color1" d="m250 405c-85.47 0-155-69.53-155-155s69.53-155 155-155 155 69.53 155 155-69.53 155-155 155zm0-275.5a120.5 120.5 0 1 0 120.5 120.5 120.6 120.6 0 0 0-120.5-120.5z"/><path class="voila-spinner-color2" d="m250 405c-85.47 0-155-69.53-155-155a17.26 17.26 0 1 1 34.51 0 120.6 120.6 0 0 0 120.5 120.5 17.26 17.26 0 1 1 0 34.51z"/></svg>
+    </div>
+    <h2 id="loading_text">Running ...</h2>
+  </div>
+
+
+<script>
+  var voilaCellExecuteAfter = function(cellIndex, cellCount) {};
+
+  var voilaCellExecuteBefore = function(cellIndex, cellCount) {
+    var el = document.getElementById("loading_text");
+    el.innerHTML = `Executing ${cellIndex} of ${cellCount}`;
+  };
+
+  // Backward compatibility
+  var voila_process = function(cellIndex, cellCount) {};
+</script>
+
+<div id="rendered_cells" style="display: none"><script id="jupyter-config-data" type="application/json">
+    {
+        "baseUrl": "/",
+        "kernelId": "e301124d-93b3-49af-8e5c-27f688e4f578"
+    }
+    </script>
+    
+    
+    <script>voilaCellExecuteBefore(1, 5);</script><script>voila_process(1, 5);</script>
+          <div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs jp-mod-noInput">
+
+</div>
+        <script>
+          voilaCellExecuteAfter(1, 5);
+
+          
+            voilaCellExecuteBefore(1 + 1, 5);
+          
+        </script><script>voila_process(2, 5);</script>
+          <div class="jp-Cell jp-CodeCell jp-Notebook-cell  jp-mod-noInput">
+
+<div class="jp-Cell-outputWrapper">
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
+<script>
+code_show=true; 
+function code_toggle() {
+ if (code_show){
+ $('div.input').hide();
+ } else {
+ $('div.input').show();
+ }
+ code_show = !code_show
+} 
+$( document ).ready(code_toggle);
+</script>
+The raw code for this IPython notebook is by default hidden for easier reading.
+To toggle on/off the raw code, click <a href="javascript:code_toggle()">here</a>.
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+        <script>
+          voilaCellExecuteAfter(2, 5);
+
+          
+            voilaCellExecuteBefore(2 + 1, 5);
+          
+        </script><script>voila_process(3, 5);</script>
+          <div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs jp-mod-noInput">
+
+</div>
+        <script>
+          voilaCellExecuteAfter(3, 5);
+
+          
+            voilaCellExecuteBefore(3 + 1, 5);
+          
+        </script><script>voila_process(4, 5);</script>
+          <div class="jp-Cell jp-CodeCell jp-Notebook-cell  jp-mod-noInput">
+
+<div class="jp-Cell-outputWrapper">
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
+
+      <link href="https://cdn.webdatarocks.com/latest/webdatarocks.min.css" rel="stylesheet"/>
+      <script src="https://cdn.webdatarocks.com/latest/webdatarocks.toolbar.min.js"></script>
+      <script src="https://cdn.webdatarocks.com/latest/webdatarocks.js"></script>
+      <h1>Table1</h1>
+      <div id="pivot-container1"></div>
+      <script>
+      new WebDataRocks({"container": "#pivot-container1", "width": "50%", "height": 200, "toolbar": true, "report": {"dataSource": {"type": "json", "data": [{"Product": "Apple pie", "Quantity": "20"}, {"Product": "Lemon cake", "Quantity": "30"}]}, "slice": {"rows": [{"uniqueName": "Product"}], "columns": [{"uniqueName": "[Measures]"}], "measures": [{"uniqueName": "Quantity", "aggregation": "sum"}]}}});
+      </script>
+      
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+        <script>
+          voilaCellExecuteAfter(4, 5);
+
+          
+            voilaCellExecuteBefore(4 + 1, 5);
+          
+        </script><script>voila_process(5, 5);</script>
+          <div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs jp-mod-noInput">
+
+</div>
+        <script>
+          voilaCellExecuteAfter(5, 5);
+
+          
+        </script></div>
+
+<script type="text/javascript">
+    (function() {
+      // remove the loading element
+      var el = document.getElementById("loading")
+      el.parentNode.removeChild(el)
+      // show the cell output
+      el = document.getElementById("rendered_cells")
+      el.style.display = 'unset'
+    })();
+</script>
+</body>
+
+<script>
+requirejs.config({ baseUrl: '/voila/', waitSeconds: 30})
+requirejs(
+    [
+        "static/main",
+    
+    ]
+)
+</script>
+
+
+
+
+
+
+</html>
